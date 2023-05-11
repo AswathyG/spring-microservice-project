@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "spring-project",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "username",
+            "Host": "pgdatabase",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+        }
+    }
+}

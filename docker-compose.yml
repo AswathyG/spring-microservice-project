@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  pgdatabase:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=my_db
+    volumes:
+      - ./target/postgres_volume_local:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
+    volumes:
+      - ./spring-project-ddl/servers.json:/pgadmin4/servers.json
+
+  flyway:
+    image: flyway/flyway
+    command: -configFiles=/flyway/conf/flyway.config -locations=filesystem:/flyway/sql -connectRetries=60 -X migrate
+    volumes:
+      - ${PWD}/spring-project-ddl/sql:/flyway/sql
+      - ${PWD}/spring-project-ddl/conf/flyway.config:/flyway/conf/flyway.config
+    depends_on:
+      - pgdatabase
+
+volumes:
+  postgres_volume_local:
+    external: true      
