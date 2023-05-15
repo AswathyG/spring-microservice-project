@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.project.springmicroserviceproject.exception.EntryMissingException;
 import com.project.springmicroserviceproject.model.dao.CrudModel;
 import com.project.springmicroserviceproject.repository.SpringProjectRepository;
 
@@ -53,14 +54,14 @@ public class CrudController {
         return ResponseEntity.ok().build();
 
     }
-    // @PutMapping("/project/subtract/{id}")
-    // public void updateItemQuantity(@PathVariable int id, @RequestParam int quantityToBeSubtracted){
-
-    // }
-
+   
     @GetMapping("/project/retrieve/{id}")
     public CrudModel getItemDetail(@PathVariable int id){
+
        Optional<CrudModel> retrievedData = springProjectRepository.findById(id);
+       if(retrievedData.isEmpty()){
+        throw new EntryMissingException(" No data available for id : "+id);
+       } 
        return retrievedData.get();
     }
 
