@@ -31,5 +31,4 @@ services:
       - pgdatabase
 
 volumes:
-  postgres_volume_local:
-    external: true      
+    postgres_volume_local:
