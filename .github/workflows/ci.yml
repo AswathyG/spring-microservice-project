@@ -29,8 +29,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/AswathyG/app:latest
-            ghcr.io/AswathyG/app:1.0.0
+            ghcr.io/aswathyg/app:latest
+            ghcr.io/aswathyg/app:1.0.0
 
 
 
