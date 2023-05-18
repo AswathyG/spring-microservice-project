@@ -1,12 +1,11 @@
-# github action file
-
+# gitHub action file
 name: Java CI with maven
 
 on:
-   push:
-     branches:[ master ]
-   pull_request:
-     branches:[ master ]
+  push:
+    branches:[ master ]
+  pull_request:
+    branches:[ master ]
 
 jobs:
   build-project:
