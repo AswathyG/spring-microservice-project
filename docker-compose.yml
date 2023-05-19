@@ -31,8 +31,9 @@ services:
       - pgdatabase
 
   crud-app:
-    build: .
+    # build: .
     # image: my-spring-app:v1.0
+    image: ghcr.io/aswathyg/app:1.0.0
     ports:
       - "3000:8081"
     depends_on:

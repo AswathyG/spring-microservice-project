@@ -41,8 +41,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/aswathyg/app:latest
-            ghcr.io/aswathyg/app:1.0.0
+            ghcr.io/aswathyg/spring-microservices-app:latest
+            ghcr.io/aswathyg/spring-microservices-app:1.0.0
 
 
 
