@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.project.springmicroserviceproject.exception.EntryMissingException;
 import com.project.springmicroserviceproject.model.dao.CrudModel;
 import com.project.springmicroserviceproject.repository.SpringProjectRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 public class CrudController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class CrudController {
 
     @GetMapping("/project/home-page")
     public String getHome(){
-      
+       log.info("============================== home-page-invoked======================");
        return "hello-world!";
     }
 
