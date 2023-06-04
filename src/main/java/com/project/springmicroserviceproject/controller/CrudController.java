@@ -3,10 +3,15 @@ package com.project.springmicroserviceproject.controller;
 import java.net.URI;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.project.springmicroserviceproject.exception.EntryMissingException;
+import com.project.springmicroserviceproject.exception.InvalidFieldException;
 import com.project.springmicroserviceproject.model.dao.CrudModel;
 import com.project.springmicroserviceproject.repository.SpringProjectRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +43,12 @@ public class CrudController {
 
 
     @PostMapping("/project")
-    public ResponseEntity<Object> addNewItem(@RequestBody CrudModel data){
+    public ResponseEntity<Object> addNewItem(@Valid @RequestBody CrudModel data, BindingResult result){
+        
+        if(result.hasErrors()){
+            log.info("error:"+result.getFieldError().getDefaultMessage()+"for the field "+result.getFieldError().getField()) ;
+            throw new InvalidFieldException(result,result.getFieldError().getDefaultMessage());
+        }
         CrudModel addedData = springProjectRepository.save(data);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                                      .buildAndExpand(addedData.getId()).toUri();
@@ -48,7 +61,8 @@ public class CrudController {
 
         Optional<CrudModel> retrievedData = springProjectRepository.findById(id);
         if(retrievedData.isEmpty()){
-            return ResponseEntity.notFound().build();
+            throw new EntryMissingException("No record found");
+            //return ResponseEntity.notFound().build();
         }
         CrudModel data = retrievedData.get();
         data.setItemQuantity(data.getItemQuantity()+ quantityToBeAdded);
@@ -63,8 +77,9 @@ public class CrudController {
        Optional<CrudModel> retrievedData = springProjectRepository.findById(id);
        if(retrievedData.isEmpty()){
        // throw new EntryMissingException(" No data available for id : "+id);
-       return ResponseEntity.noContent()
-                            .header("Content-Type","application/json").build() ;
+     //  return ResponseEntity.noContent()
+       //                     .header("Content-Type","application/json").build() ;
+       throw new EntryMissingException("No record found");
                            
        } 
                      
@@ -80,8 +95,9 @@ public class CrudController {
             return new ResponseEntity<String>("Entry deleted successfully!", createHeaders(), HttpStatus.OK);
 
         } catch (Exception e) {
-            return ResponseEntity.noContent()
-                            .header("Content-Type","application/json").build() ;
+           // return ResponseEntity.noContent()
+                         //   .header("Content-Type","application/json").build() ;
+             throw new EntryMissingException("No record found");
         }
    
     }

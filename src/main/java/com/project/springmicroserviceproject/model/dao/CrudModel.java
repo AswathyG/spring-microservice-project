@@ -9,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -31,8 +35,11 @@ public class CrudModel implements Serializable{
       @GeneratedValue(strategy = GenerationType.IDENTITY)
       private int id;
 
+      @NotNull
+      @Size(min=2, message="Item name must have at least 2 characters")
       private String itemName;
 
+      @PositiveOrZero(message = "Item quantity has to be 0 or more")
       private int itemQuantity;
 
       @CreationTimestamp 

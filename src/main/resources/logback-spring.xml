@@ -1,5 +1,5 @@
 <configuration>
-    <property name="LOG_ROOT" value="/app/temp/logs" />
+    <property name="LOG_ROOT" value="temp/logs" />
     <property name="LOG_FILE_NAME" value="application" />
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
