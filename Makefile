@@ -15,7 +15,7 @@ DOCKER_COMPOSE_FILE := docker-compose.yml
 
 # Build the Spring Boot application
 build:
-	@mvn clean package
+	mvn clean package
 
 # Build the Docker image
 docker-build:
